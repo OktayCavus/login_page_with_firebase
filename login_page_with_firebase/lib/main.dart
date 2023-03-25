@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/homePage': (context) => const HomePage()
       },
       theme: ThemeData(
-        scaffoldBackgroundColor: scaffoldBackgroundColor,
+        scaffoldBackgroundColor: CustomColors.scaffoldBackgroundColor,
         primarySwatch: Colors.blue,
       ),
       home: const LoginPage(),

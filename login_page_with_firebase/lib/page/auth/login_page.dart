@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_page_with_firebase/constant.dart';
+import 'package:login_page_with_firebase/service/auth_service.dart';
+import 'package:login_page_with_firebase/widgets/custom_text_button.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,10 +20,13 @@ class _LoginPageState extends State<LoginPage> {
 
   late String email, password;
 
+  final authService = AuthService();
+
   ElevatedButton loginButton(double height) {
     return ElevatedButton(
         style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(loginButtonColor),
+            backgroundColor:
+                const MaterialStatePropertyAll(CustomColors.loginButtonColor),
             shape: const MaterialStatePropertyAll(StadiumBorder()),
             minimumSize:
                 MaterialStatePropertyAll(Size(height * 0.25, height * 0.07))),
@@ -139,10 +144,29 @@ class _LoginPageState extends State<LoginPage> {
                         customSizedBox(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            forgetPasswordButton(),
-                            signUpButton(),
+                          children: [
+                            const forgetPasswordButton(),
+                            CustomTextButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, '/signUp'),
+                              buttonText: 'Hesap Olustur',
+                            ),
                           ],
+                        ),
+                        Center(
+                          child: CustomTextButton(
+                              onPressed: () async {
+                                final result =
+                                    await authService.signInAnonymous();
+
+                                if (result != null) {
+                                  Navigator.pushReplacementNamed(
+                                      context, '/homePage');
+                                } else {
+                                  print('auth anon hata');
+                                }
+                              },
+                              buttonText: 'Misafir Girisi'),
                         )
                       ],
                     ),
@@ -155,22 +179,15 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
 
-class signUpButton extends StatelessWidget {
-  const signUpButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  /*TextButton signUpButton(BuildContext context) {
     return TextButton(
         onPressed: () => Navigator.pushNamed(context, '/signUp'),
-        child: Text(
+        child: const Text(
           'Hesap Olustur',
-          style: TextStyle(color: textButtonColor),
+          style: TextStyle(color: CustomColors.textButtonColor),
         ));
-  }
+  }*/
 }
 
 class forgetPasswordButton extends StatelessWidget {
@@ -182,9 +199,9 @@ class forgetPasswordButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         onPressed: () {},
-        child: Text(
+        child: const Text(
           'Sifremi Unuttum',
-          style: TextStyle(color: textButtonColor),
+          style: TextStyle(color: CustomColors.textButtonColor),
         ));
   }
 }

@@ -10,13 +10,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
-        body: Center(
-            child: Text(
-          'Anasayfa',
-          style: TextStyle(color: Colors.white),
-        )),
+        body: Column(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/loginPage');
+                },
+                icon: const Icon(Icons.arrow_back)),
+            const Center(
+                child: Text(
+              'Anasayfa',
+              style: TextStyle(color: Colors.white),
+            )),
+          ],
+        ),
       ),
     );
   }

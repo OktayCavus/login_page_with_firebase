@@ -63,9 +63,9 @@ class _SignUpState extends State<SignUp> {
   TextButton signUpButton() {
     return TextButton(
         onPressed: signUp,
-        child: Text(
+        child: const Text(
           'Hesap Olustur',
-          style: TextStyle(color: textButtonColor),
+          style: TextStyle(color: CustomColors.textButtonColor),
         ));
   }
 

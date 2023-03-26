@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_page_with_firebase/constant.dart';
+import 'package:login_page_with_firebase/page/auth/login_page.dart';
+import 'package:login_page_with_firebase/service/auth_service.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -10,11 +12,13 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  late String email, password;
+  late String email, password, userName, fullname;
   // * Form widget'ını dışarıdan yönetmek için key oluşturmak lazım
   final formKey = GlobalKey<FormState>();
   // * Firebase auth methodlarına erişmek için bu değişkeni oluşturduk
   final firebaseAuth = FirebaseAuth.instance;
+
+  final authService = AuthService();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -74,7 +78,13 @@ class _SignUpState extends State<SignUp> {
     // ! validate işlemi yapıldıysa save işlemine bakılması lazım
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      try {
+      final result =
+          await authService.signUp(email, userName, fullname, password);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
+
+      /*try {
         // * userResult.user ile bir çok dğeişkene ulaşabiliyoruz
         var userResult = await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
@@ -84,7 +94,7 @@ class _SignUpState extends State<SignUp> {
         Navigator.pushReplacementNamed(context, '/loginPage');
       } catch (e) {
         print(e.toString());
-      }
+      }*/
     } else {}
   }
 

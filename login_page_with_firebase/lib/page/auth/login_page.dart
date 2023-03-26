@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_page_with_firebase/constant.dart';
+import 'package:login_page_with_firebase/page/home_page.dart';
 import 'package:login_page_with_firebase/service/auth_service.dart';
 import 'package:login_page_with_firebase/widgets/custom_text_button.dart';
 
@@ -37,14 +38,43 @@ class _LoginPageState extends State<LoginPage> {
   void signIn() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      try {
+
+      final result = await authService.signIn(email, password);
+      if (result == 'success') {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            (route) => false);
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              actions: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Geri Dön')),
+                )
+              ],
+              content: Text(result!),
+            );
+          },
+        );
+      }
+
+      /* try {
         final userResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
         Navigator.pushReplacementNamed(context, '/homePage');
         //print(userResult.user!.email);
       } catch (e) {
         print(e.toString());
-      }
+      }*/
     } else {}
   }
 

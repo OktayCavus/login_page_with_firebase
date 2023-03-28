@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
 
-      /* try {
+      /*try {
         final userResult = await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
         Navigator.pushReplacementNamed(context, '/homePage');

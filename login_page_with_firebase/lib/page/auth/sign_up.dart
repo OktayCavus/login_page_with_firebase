@@ -12,7 +12,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  late String email, password, userName, fullname;
+  late String email, password, username, fullname;
   // * Form widget'ını dışarıdan yönetmek için key oluşturmak lazım
   final formKey = GlobalKey<FormState>();
   // * Firebase auth methodlarına erişmek için bu değişkeni oluşturduk
@@ -51,6 +51,10 @@ class _SignUpState extends State<SignUp> {
                           customSizedBox(),
                           emailTextField(),
                           customSizedBox(),
+                          nameSurnameTF(),
+                          customSizedBox(),
+                          userNameTF(),
+                          customSizedBox(),
                           passwordTextField(),
                           customSizedBox(),
                           customSizedBox(),
@@ -61,6 +65,44 @@ class _SignUpState extends State<SignUp> {
           ),
         )),
       ),
+    );
+  }
+
+  TextFormField userNameTF() {
+    return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Bilgileri eksiksiz Doldur';
+        }
+        return null;
+      },
+      // * validator'den sonra çalışacak ve kullanıcının girdiği veriyi
+      //* başka bir değişkene koyacaz
+      onSaved: (value) {
+        username = value!;
+      },
+      // ! obscureText içine yazılan yazıyı gizliyor
+      style: const TextStyle(color: Colors.white),
+      decoration: customInputDecoration('Kullanici Adi'),
+    );
+  }
+
+  TextFormField nameSurnameTF() {
+    return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Bilgileri eksiksiz Doldur';
+        }
+        return null;
+      },
+      // * validator'den sonra çalışacak ve kullanıcının girdiği veriyi
+      //* başka bir değişkene koyacaz
+      onSaved: (value) {
+        fullname = value!;
+      },
+      // ! obscureText içine yazılan yazıyı gizliyor
+      style: const TextStyle(color: Colors.white),
+      decoration: customInputDecoration('Ad Soyad'),
     );
   }
 
@@ -79,7 +121,7 @@ class _SignUpState extends State<SignUp> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       final result =
-          await authService.signUp(email, userName, fullname, password);
+          await authService.signUp(email, username, fullname, password);
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
           (route) => false);

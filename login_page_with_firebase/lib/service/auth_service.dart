@@ -52,20 +52,25 @@ class AuthService {
   }
 
   Future<String?> signUp(
-      String email, String userName, String fullname, String password) async {
+      String email, String username, String fullname, String password) async {
     String? res;
     try {
       final result = await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       try {
-        final resultData = await firebaseFirestore.collection('Users').add({
-          //  ! JSON FORMATINDA
+        // ! Collection yapısı firebase firestore database içindeki collectin
+        // ! add deyince map yapısı istiyor
+        final resultData = await firebaseFirestore.collection("Users").add({
+          "bio": "",
           "email": email,
+          "followers": [],
+          "following": [],
           "fullname": fullname,
-          "username": userName,
+          "post": [],
+          "username": username,
         });
       } catch (e) {
-        print("$e");
+        print("$e aaaaaaaaaaaa");
       }
       res = 'success';
     } on FirebaseAuthException catch (e) {

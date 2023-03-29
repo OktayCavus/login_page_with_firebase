@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:login_page_with_firebase/constant.dart';
 import 'package:login_page_with_firebase/page/auth/login_page.dart';
 import 'package:login_page_with_firebase/page/auth/sign_up.dart';
@@ -11,6 +12,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemStatusBarContrastEnforced: false, statusBarColor: Colors.indigo));
   runApp(const MyApp());
 }
 

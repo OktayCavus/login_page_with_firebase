@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/homePage': (context) => const HomePage()
       },
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(color: CustomColors.textButtonColor),
         scaffoldBackgroundColor: CustomColors.scaffoldBackgroundColor,
         primarySwatch: Colors.blue,
       ),

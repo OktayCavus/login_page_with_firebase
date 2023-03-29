@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:login_page_with_firebase/constant.dart';
-import 'package:login_page_with_firebase/page/home_page.dart';
+import 'package:login_page_with_firebase/page/tab_bar_controller.dart';
 import 'package:login_page_with_firebase/service/auth_service.dart';
 import 'package:login_page_with_firebase/widgets/custom_text_button.dart';
 
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       if (result == 'success') {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => const HomePage(),
+              builder: (context) => const TabBarController(),
             ),
             (route) => false);
       } else {
